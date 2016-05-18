@@ -11,6 +11,7 @@
         <module>ws-sample-web</module>
         <module>sample-ws-client</module>
         <module>spring-rest-template</module>
+        <module>unirest-rest-client</module>
     </modules>
 
     <properties>
