@@ -16,7 +16,7 @@ public class PostOkHttpRest {
 
         MediaType mediaType = MediaType.parse("application/json");
 
-        RequestBody body = RequestBody.create(mediaType, "  {\r\n    \"name\": \"Kot\",\r\n    \"age\": 11\r\n  }\r\n");
+        RequestBody body = RequestBody.create(mediaType, "  {\"name\": \"Kot\", \"age\": 11  }");
 
         Request request = new Request.Builder()
                 .url("http://localhost:8080/api/person")
@@ -30,5 +30,19 @@ public class PostOkHttpRest {
 
         System.out.println(response.body().string());
         System.out.println(response.headers().names());
+
+        System.out.println(response.header("Location"));
+
+        Request request2 = new Request.Builder()
+                .url(response.header("Location"))
+                .get()
+                .addHeader("content-type", "application/json")
+                .addHeader("accept", "application/json")
+                .addHeader("cache-control", "no-cache")
+                .build();
+
+        Response response2 = client.newCall(request2).execute();
+        System.out.println(response2.body().string());
+
     }
 }
