@@ -37,6 +37,10 @@
     <jaxws:endpoint id="helloWorld" implementor="pl.com.softproject.ws.SampleServiceImpl"
                     address="/myService"/>
 
+    <!--<jaxws:properties>-->
+        <!--<entry key="mtom-enabled" value="true"/>-->
+    <!--</jaxws:properties>-->
+
 
     <jaxrs:server id="customerService" address="/customers">
         <jaxrs:serviceBeans>
