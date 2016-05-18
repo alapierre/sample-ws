@@ -10,6 +10,7 @@
     <modules>
         <module>ws-sample-web</module>
         <module>sample-ws-client</module>
+        <module>spring-rest-template</module>
     </modules>
 
     <properties>
