@@ -3,10 +3,7 @@
  */
 package pl.com.softproject.ws.rest.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -21,6 +18,9 @@ public class Person {
     private int id;
     private String name;
     private int age;
+
+    @Embedded
+    private Address address;
 
     public String getName() {
         return name;
@@ -46,12 +46,21 @@ public class Person {
         this.id = id;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", address=" + address +
                 '}';
     }
 }

@@ -16,7 +16,7 @@ public class PostOkHttpRest {
 
         MediaType mediaType = MediaType.parse("application/json");
 
-        RequestBody body = RequestBody.create(mediaType, "  {\"name\": \"Kot\", \"age\": 11  }");
+        RequestBody body = RequestBody.create(mediaType, "{\"name\": \"Alicja\",\n  \"age\": 11,\n  \"addressCity\": \"Warszawa\",\n  \"addressPostCode\": \"00-001\",\n  \"addressStreet\": \"Marszałkowska 123\"\n}");
 
         Request request = new Request.Builder()
                 .url("http://localhost:8080/api/person")

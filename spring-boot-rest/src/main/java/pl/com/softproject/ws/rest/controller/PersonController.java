@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.com.softproject.ws.rest.converter.PersonConverter;
+import pl.com.softproject.ws.rest.dto.PersonDTO;
 import pl.com.softproject.ws.rest.model.Person;
 import pl.com.softproject.ws.rest.repository.PersonRepository;
 
@@ -19,6 +21,9 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api")
 public class PersonController {
+
+    @Autowired
+    private PersonConverter personConverter;
 
     @Autowired
     private PersonRepository personRepository;
@@ -46,7 +51,11 @@ public class PersonController {
     }
 
     @RequestMapping(value = "person", method = RequestMethod.POST)
-    public ResponseEntity<?> save(@RequestBody  Person person) {
+    public ResponseEntity<?> save(@RequestBody PersonDTO personDTO) {
+
+        System.out.println(personDTO);
+
+        Person person = personConverter.toDBO(personDTO);
 
         System.out.println(person);
 
@@ -60,25 +69,25 @@ public class PersonController {
     }
 
     @RequestMapping(value = "person/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> load(@PathVariable int id) {
+    public ResponseEntity<PersonDTO> load(@PathVariable int id) {
 
         Person person = personRepository.findOne(id);
         if(person == null) {
-            return ResponseEntity.notFound().build();
+            return (ResponseEntity) ResponseEntity.notFound().build();//(ResponseEntity<PersonDTO>) HttpEntityUtil.notFound(); //ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(person);
+        System.out.println(person);
+
+        return ResponseEntity.ok(personConverter.toDTO(person)); //HttpEntityUtil.responseEntity(personConverter.toDTO(person)); //ResponseEntity.ok(personConverter.toDTO(person));
     }
 
     @RequestMapping(value = "persons", method = RequestMethod.GET)
-    public Iterable<Person> list() {
-        return personRepository.findAll();
+    public Iterable<PersonDTO> list() {
+        return personConverter.toDTO(personRepository.findAll());
     }
 
     @RequestMapping(value = "person/search/{name}", method = RequestMethod.GET)
-    public Iterable<Person> findByName(@PathVariable String name) {
-
-        return personRepository.findByNameLikeIgnoreCase(name + '%');
-
+    public Iterable<PersonDTO> findByName(@PathVariable String name) {
+        return personConverter.toDTO(personRepository.findByNameLikeIgnoreCase(name + '%'));
     }
 }

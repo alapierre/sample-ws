@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/person/",
+                headers: {
+                    "content-type": "application/json",
+                    "cache-control": "no-cache"
+                },
+                data: "{\n  \"name\": \"Alicja\",\n  \"age\": 11,\n  \"addressCity\": \"Warszawa\",\n  \"addressPostCode\": \"00-001\",\n  \"addressStreet\": \"Marszałkowska 123\"\n}"
+
+            }).done(function (response) {
+                console.log(response);
+                alert("Obiekt utworzony!")
+            });
+
+        });
+    </script>
+</head>
+<body>
+
+<p id="p1">Tworzenie obiektu w bazie danych.</p>
+
+<p>
+    user: user<br>
+    pass: c79f63b2-acf9-4261-b911-084e92fd5058
+</p>
+
+</body>
+</html>
