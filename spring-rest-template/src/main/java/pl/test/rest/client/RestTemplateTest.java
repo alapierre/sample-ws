@@ -4,15 +4,19 @@ package pl.test.rest.client; /**
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import pl.test.rest.client.model.Person;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -30,15 +34,14 @@ public class RestTemplateTest {
 
         List<HttpMessageConverter<?>> converters = new ArrayList<>();
         converters.add(new StringHttpMessageConverter());
-        converters.add(new MappingJacksonHttpMessageConverter());
         restTemplate.setMessageConverters(converters);
 
-        HttpEntity httpEntity = new HttpEntity(null);
+        HttpEntity httpEntity = new HttpEntity(createBasicAuthHeaders("user", "c79f63b2-acf9-4261-b911-084e92fd5058"));
 
-//        ResponseEntity<String> resp = restTemplate.exchange("http://localhost:8080/api/person/1",
-//                HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> resp = restTemplate.exchange("http://localhost:8080/api/person/1",
+                HttpMethod.GET, httpEntity, String.class);
 
-        ResponseEntity<String> resp = restTemplate.getForEntity("http://localhost:8080/api/person/1", String.class);
+        //ResponseEntity<String> resp = restTemplate.getForEntity("http://localhost:8080/api/person/1", String.class);
 
         System.out.println(resp.getBody());
 
@@ -55,22 +58,34 @@ public class RestTemplateTest {
 
     }
 
-
-
     private static void automatic() {
         RestTemplate restTemplate = new RestTemplate();
 
         List<HttpMessageConverter<?>> converters = new ArrayList<>();
         converters.add(new StringHttpMessageConverter());
-        converters.add(new MappingJacksonHttpMessageConverter());
+        converters.add(new MappingJackson2HttpMessageConverter());
         restTemplate.setMessageConverters(converters);
 
-        HttpEntity httpEntity = new HttpEntity(null);
+        HttpEntity httpEntity = new HttpEntity(createBasicAuthHeaders("user", "c79f63b2-acf9-4261-b911-084e92fd5058"));
 
-        ResponseEntity<Person> resp = restTemplate.getForEntity("http://localhost:8080/api/person/1",
+        ResponseEntity<Person> resp = restTemplate.exchange(
+                "http://localhost:8080/api/person/1",
+                HttpMethod.GET,
+                httpEntity,
                 Person.class);
 
         System.out.println(resp.getBody());
+    }
+
+    static protected HttpHeaders createBasicAuthHeaders(final String username, final String password) {
+        return new HttpHeaders() {
+            {
+                String auth = username + ":" + password;
+                byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(Charset.forName("UTF-8")));
+                String authHeader = "Basic " + new String(encodedAuth);
+                set("Authorization", authHeader);
+            }
+        };
     }
 
 }
