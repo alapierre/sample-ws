@@ -3,7 +3,10 @@
  */
 package pl.com.softproject.ws;
 
+import pl.com.softproject.ws.model.Customer;
+
 import javax.jws.WebService;
+import java.io.IOException;
 
 /**
  * @author Adrian Lapierre {@literal <adrian@soft-project.pl>}
@@ -12,4 +15,6 @@ import javax.jws.WebService;
 @WebService
 public interface SampleService {
     String sayHallo(String name);
+
+    Customer loadCustomer(int id) throws IOException;
 }

@@ -35,11 +35,15 @@
     <context:component-scan base-package="pl.com.softproject.ws"/>
 
     <jaxws:endpoint id="helloWorld" implementor="pl.com.softproject.ws.SampleServiceImpl"
-                    address="/myService"/>
+                    address="/myService">
 
-    <!--<jaxws:properties>-->
-        <!--<entry key="mtom-enabled" value="true"/>-->
-    <!--</jaxws:properties>-->
+        <jaxws:properties>
+            <entry key="mtom-enabled" value="true"/>
+        </jaxws:properties>
+
+    </jaxws:endpoint>
+
+
 
 
     <jaxrs:server id="customerService" address="/customers">
