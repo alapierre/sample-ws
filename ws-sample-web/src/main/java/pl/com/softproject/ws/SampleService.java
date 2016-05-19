@@ -3,7 +3,13 @@
  */
 package pl.com.softproject.ws;
 
+import pl.com.softproject.ws.model.Customer;
+import pl.com.softproject.ws.model.Person;
+
+import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.xml.bind.annotation.XmlElement;
+import java.io.IOException;
 
 /**
  * @author Adrian Lapierre {@literal <adrian@soft-project.pl>}
@@ -11,5 +17,12 @@ import javax.jws.WebService;
 
 @WebService
 public interface SampleService {
+
     String sayHallo(String name);
+
+    void savePerson(@WebParam(name = "person") @XmlElement(required=true, nillable=false) Person person);
+
+    Person loadPerson(int id);
+
+    Customer loadCustomer(int id) throws IOException;
 }
