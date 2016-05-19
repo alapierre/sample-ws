@@ -3,6 +3,8 @@
  */
 package pl.com.softproject.ws.model;
 
+import javax.xml.bind.annotation.XmlMimeType;
+
 /**
  * @author Adrian Lapierre {@literal <adrian@soft-project.pl>}
  */
@@ -11,6 +13,9 @@ public class Person {
     private String name;
     private String lastName;
     private int age;
+
+    @XmlMimeType("application/octet-stream")
+    private byte[] imageData;
 
     public Person() {
     }
@@ -43,5 +48,18 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

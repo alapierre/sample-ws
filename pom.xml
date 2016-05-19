@@ -13,6 +13,7 @@
         <module>spring-rest-template</module>
         <module>unirest-rest-client</module>
         <module>okHttp-rest-client</module>
+        <module>spring-rest-oauth</module>
     </modules>
 
     <properties>
